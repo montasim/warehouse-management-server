@@ -38,7 +38,7 @@ async function run() {
         });
 
         // all products
-        app.get('/products', async (req, res) => {
+        app.get('/inventory', async (req, res) => {
             const query = {};
             const cursor = productsCollection.find(query);
             const products = await cursor.toArray();
@@ -47,7 +47,7 @@ async function run() {
         });
 
         // single product
-        app.get('/products/:id', async (req, res) => {
+        app.get('/inventory/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const product = await productsCollection.findOne(query);
