@@ -29,7 +29,7 @@ async function run() {
         });
 
         // single testimonial
-        app.get('testimonials/:id', async (req, res) => {
+        app.get('/testimonials/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const testimonial = await testimonialsCollection.findOne(query);
@@ -44,6 +44,15 @@ async function run() {
             const products = await cursor.toArray();
 
             res.send(products);
+        });
+
+        // single product
+        app.get('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const product = await productsCollection.findOne(query);
+
+            res.send(product);
         });
     }
     finally {
