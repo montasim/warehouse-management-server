@@ -17,6 +17,7 @@ async function run() {
     try {
         await client.connect();
         const testimonialsCollection = client.db('posDash').collection('testimonials');
+        const productsCollection = client.db('posDash').collection('products');
 
         // testimonials
         app.get('/testimonials', async (req, res) => {
@@ -34,7 +35,16 @@ async function run() {
             const testimonial = await testimonialsCollection.findOne(query);
 
             res.send(testimonial);
-        })
+        });
+
+        // all products
+        app.get('/products', async (req, res) => {
+            const query = {};
+            const cursor = productsCollection.find(query);
+            const products = await cursor.toArray();
+
+            res.send(products);
+        });
     }
     finally {
 
