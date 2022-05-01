@@ -18,6 +18,7 @@ async function run() {
         await client.connect();
         const testimonialsCollection = client.db('posDash').collection('testimonials');
         const productsCollection = client.db('posDash').collection('products');
+        const userItemsCollection = client.db('posDash').collection('userItems');
 
         // testimonials
         app.get('/testimonials', async (req, res) => {
@@ -72,7 +73,7 @@ async function run() {
             res.send(result);
         });
 
-        // update user
+        // update product
         app.put('/inventory/:id', async (req, res) => {
             const id = req.params.id;
             const updateProduct = req?.body;
@@ -84,6 +85,14 @@ async function run() {
                 }
             };
             const result = await productsCollection.updateOne(filter, updateStock, options)
+            res.send(result);
+        });
+
+        // add user items
+        app.post('/add-user-items', async (req, res) => {
+            const newItem = req.body;
+            console.log('added', newItem);
+            const result = await userItemsCollection.insertOne(newItem);
             res.send(result);
         });
     }
