@@ -104,6 +104,15 @@ async function run() {
 
             res.send(products);
         });
+
+        // delete my items
+        app.delete('/my-items/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await myItemsCollection.deleteOne(query);
+
+            res.send(result);
+        });
     }
     finally {
 
