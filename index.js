@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
@@ -114,6 +115,15 @@ async function run() {
             const result = await myItemsCollection.deleteOne(query);
 
             res.send(result);
+        });
+
+        // JWT auth
+        app.post('/login', async (req, res) => {
+            const user = req.body;
+            const accessToken = jwt.sign(user, process.env.JWT_ACCESS_TOKEN, {
+                expiresIn: '1d'
+            });
+            res.send(accessToken);
         });
     }
     finally {
