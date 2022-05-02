@@ -119,6 +119,7 @@ async function run() {
             const decodedUserEmail = req.decoded.userEmail;
             const userEmail = req.query.userEmail;
 
+<<<<<<< HEAD
             // console.log(decodedUserEmail, userEmail);
 
             // if (userEmail === decodedUserEmail) {
@@ -128,6 +129,15 @@ async function run() {
             //     res.status(403).send({ message: 'Forbidden Access' });
             // }
 
+=======
+            // if (userEmail === decodedUserEmail) {
+
+            // }
+            // else {
+            //     res.status(403).send({ message: 'Forbidden Access' });
+            // }
+
+>>>>>>> f6c305d36a56361c5426d4ac37554cba5c630c4c
             const query = { userEmail: userEmail };
             const cursor = myItemsCollection.find(query);
             const products = await cursor.toArray();
