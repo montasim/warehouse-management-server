@@ -118,26 +118,6 @@ async function run() {
         app.get('/my-items', async (req, res) => {
             const decodedUserEmail = req.decoded.userEmail;
             const userEmail = req.query.userEmail;
-
-<<<<<<< HEAD
-            // console.log(decodedUserEmail, userEmail);
-
-            // if (userEmail === decodedUserEmail) {
-
-            // }
-            // else {
-            //     res.status(403).send({ message: 'Forbidden Access' });
-            // }
-
-=======
-            // if (userEmail === decodedUserEmail) {
-
-            // }
-            // else {
-            //     res.status(403).send({ message: 'Forbidden Access' });
-            // }
-
->>>>>>> f6c305d36a56361c5426d4ac37554cba5c630c4c
             const query = { userEmail: userEmail };
             const cursor = myItemsCollection.find(query);
             const products = await cursor.toArray();
@@ -154,14 +134,14 @@ async function run() {
             res.send(result);
         });
 
-        // JWT auth
-        app.post('/login', async (req, res) => {
-            const user = req.body;
-            const accessToken = jwt.sign(user, process.env.JWT_ACCESS_TOKEN, {
-                expiresIn: '1d'
-            });
-            res.send(accessToken);
-        });
+        // // JWT auth
+        // app.post('/login', async (req, res) => {
+        //     const user = req.body;
+        //     const accessToken = jwt.sign(user, process.env.JWT_ACCESS_TOKEN, {
+        //         expiresIn: '1d'
+        //     });
+        //     res.send(accessToken);
+        // });
     }
     finally {
     }
