@@ -18,7 +18,7 @@ async function run() {
         await client.connect();
         const testimonialsCollection = client.db('posDash').collection('testimonials');
         const productsCollection = client.db('posDash').collection('products');
-        const userItemsCollection = client.db('posDash').collection('userItems');
+        const myItemsCollection = client.db('posDash').collection('userItems');
 
         // testimonials
         app.get('/testimonials', async (req, res) => {
@@ -89,10 +89,10 @@ async function run() {
         });
 
         // add user items
-        app.post('/add-user-items', async (req, res) => {
+        app.post('/add-my-items', async (req, res) => {
             const newItem = req.body;
             console.log('added', newItem);
-            const result = await userItemsCollection.insertOne(newItem);
+            const result = await myItemsCollection.insertOne(newItem);
             res.send(result);
         });
     }
