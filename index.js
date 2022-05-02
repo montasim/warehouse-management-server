@@ -98,7 +98,9 @@ async function run() {
 
         // display user items
         app.get('/my-items', async (req, res) => {
-            const query = {};
+            const userEmail = req.query.userEmail;
+            console.log(userEmail);
+            const query = { userEmail: userEmail };
             const cursor = myItemsCollection.find(query);
             const products = await cursor.toArray();
 
