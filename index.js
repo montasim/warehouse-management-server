@@ -25,6 +25,7 @@ const verifyJWT = (req, res, next) => {
         }
         req.decoded = decoded;
     });
+    res.header('Access-Control-Allow-Origin', '*');
     next();
 }
 
