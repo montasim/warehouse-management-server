@@ -119,6 +119,8 @@ async function run() {
             const decodedUserEmail = req.decoded.email;
             const userEmail = req.query.userEmail;
 
+            console.log(decodedUserEmail, userEmail);
+
             if (userEmail === decodedUserEmail) {
                 const query = { userEmail: userEmail };
                 const cursor = myItemsCollection.find(query);
