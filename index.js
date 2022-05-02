@@ -95,6 +95,15 @@ async function run() {
             const result = await myItemsCollection.insertOne(newItem);
             res.send(result);
         });
+
+        // display user items
+        app.get('/my-items', async (req, res) => {
+            const query = {};
+            const cursor = myItemsCollection.find(query);
+            const products = await cursor.toArray();
+
+            res.send(products);
+        });
     }
     finally {
 
