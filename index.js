@@ -11,6 +11,23 @@ require('dotenv').config();
 app.use(cors());
 app.use(express.json());
 
+// verify jwt
+const verifyJWT = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).send({ message: 'Unauthorized Access' });
+    }
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, process.env.JWT_ACCESS_TOKEN, (err, decoded) => {
+        if (err) {
+            return res.status(403).send({ message: 'Forbidden Access' });
+        }
+        req.decoded = decoded;
+    });
+    next();
+}
+
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.twhxl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
@@ -98,14 +115,20 @@ async function run() {
         });
 
         // display user items
-        app.get('/my-items', async (req, res) => {
+        app.get('/my-items', verifyJWT, async (req, res) => {
+            const decodedUserEmail = req.decoded.userEmail;
             const userEmail = req.query.userEmail;
-            console.log(userEmail);
-            const query = { userEmail: userEmail };
-            const cursor = myItemsCollection.find(query);
-            const products = await cursor.toArray();
 
-            res.send(products);
+            if (userEmail === decodedUserEmail) {
+                const query = { userEmail: userEmail };
+                const cursor = myItemsCollection.find(query);
+                const products = await cursor.toArray();
+
+                res.send(products);
+            }
+            else {
+                res.status(403).send({ message: 'Forbidden Access' });
+            }
         });
 
         // delete my items
