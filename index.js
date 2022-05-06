@@ -59,7 +59,6 @@ async function run() {
         // add product
         app.post('/add-item', async (req, res) => {
             const newItem = req.body;
-            console.log('added', newItem);
             const result = await productsCollection.insertOne(newItem);
             res.send(result);
         });
@@ -91,16 +90,14 @@ async function run() {
         // add user items
         app.post('/add-my-items', async (req, res) => {
             const newItem = req.body;
-            console.log('added', newItem);
             const result = await myItemsCollection.insertOne(newItem);
             res.send(result);
         });
 
         // display user items
         app.get('/my-items', async (req, res) => {
-            const userEmail = req.query.userEmail;
-            console.log(userEmail);
-            const query = { userEmail: userEmail };
+            const email = req.query.email;
+            const query = { email: email };
             const cursor = myItemsCollection.find(query);
             const products = await cursor.toArray();
 
